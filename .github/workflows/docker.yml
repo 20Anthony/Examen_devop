@@ -11,7 +11,7 @@ permissions:
 
 env:
   IMAGE_NAME: proyecto-devops-flask
-  IMAGE_TAG: 1.0.0
+  IMAGE_TAG: 2.0.0
 
 jobs:
   build:
