@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: inventario
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_panel
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@correo.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  web:
+    build: .
+    container_name: flask_app
+    ports:
+      - "5000:5000"
+    environment:
+      - APP_NAME=Sistema de Inventario DevOps
+      - APP_VERSION=1.0.0
+      - DB_HOST=db
+      - DB_NAME=inventario
+      - DB_USER=admin
+      - DB_PASSWORD=admin123
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
